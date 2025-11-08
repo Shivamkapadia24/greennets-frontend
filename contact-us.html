@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | GreenNets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+.contact-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Create two equal columns */
+        gap: 40px; /* This adds space between them */
+        align-items: flex-start; /* Aligns them to the top */
+        margin-top: 30px;
+        /* Remove max-width and margin: auto */
+    }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group textarea {
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+        .contact-details {
+            background-color: var(--light-gray);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        .contact-details h3 {
+            margin-bottom: 20px;
+            font-size: 22px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+        .contact-details ul {
+            list-style: none;
+            padding: 0;
+        }
+        .contact-details li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 15px;
+            font-size: 14px;
+        }
+        .contact-details i {
+            font-size: 20px;
+            color: var(--primary);
+            margin-top: 3px;
+            width: 25px;
+            text-align: center;
+        }
+        .map-container {
+            margin-top: 0;
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: 0;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .contact-layout {
+                grid-template-columns: 1fr;
+            }
+            .contact-details {
+                margin-top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container header-container">
+        
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            GreenNets
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search for products...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        
+        <div class="header-actions">
+
+            <div class="header-action-item" id="user-icon-container">
+                <i class="far fa-user" id="user-icon-itself"></i>
+                <span id="user-display-name" style="display: none; margin-left: 5px; font-weight: 500;"></span>
+            </div>
+
+            <div class="user-dropdown" id="user-dropdown-menu">
+                <div class="user-info">
+                    Signed in as <strong id="dropdown-user-name">User</strong>
+                </div>
+                <ul>
+                    <li><a href="#" id="logout-link">Logout</a></li>
+                </ul>
+            </div>
+
+            <div class="header-action-item" id="header-wishlist-icon">
+                <i class="far fa-heart"></i>
+                <span class="badge wishlist-count">0</span>
+            </div>
+
+            <div class="header-action-item cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge cart-count">0</span>
+            </div>
+
+        </div> </div> </header>
+
+    <nav>
+        <div class="container nav-container">
+            <ul class="main-nav">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="#">Green Nets <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="100-percent-shade-nets.html">100% Shade Nets</a></li>
+                        <li><a href="90-percent-shade-nets.html">90% Shade Nets</a></li>
+                        <li><a href="75-percent-shade-nets.html">75% Shade Nets</a></li>
+                        <li><a href="50-percent-shade-nets.html">50% Shade Nets</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Tarpaulins <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="premium-quality.html">Premium Quality</a></li>
+                        <li><a href="standard-quality.html">Standard Quality</a></li>
+                        <li><a href="economy-quality.html" class="active">Economy Quality</a></li>
+                    </ul>
+                </li>
+                <li>
+                <a href="#">Tirpal <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown">
+                    <li><a href="250gsm.html">250 GSM</a></li>
+                    <li><a href="200gsm.html">200 GSM</a></li>
+                    <li><a href="160gsm.html">160 GSM</a></li>
+                </ul>
+            </li>
+                <li><a href="accessories.html">Accessories</a></li>
+                <li><a href="about-us.html">About Us</a></li>
+                <li><a href="contact-us.html">Contact</a></li>
+            </ul>
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section class="category-hero" style="background: var(--white); color: var(--dark-gray);">
+        <div class="container">
+            <div class="category-hero-content">
+                <h1>Contact Us</h1>
+                <p>We'd love to hear from you. Reach out with any questions, quote requests, or feedback.</p>
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a> / 
+                    <span>Contact</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 40px; padding-bottom: 40px;">
+        <div class="container">
+            <div class="contact-layout">
+                <div class="contact-details">
+                    <h3>Contact Information</h3>
+                    <ul>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Bharat Plastics, Kila Road, Burhanpur, Madhya Pradesh 450331</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+91 9806104445</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>bharatplastics@gmail.com</span>
+                        </li>
+                         <li>
+                            <i class="far fa-clock"></i>
+                            <span>Mon - Sat: 9:00 AM - 8:00 PM<br>Sunday: Closed</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="map-container">
+                    <div class="section-title">
+                        <h2>Our Location</h2>
+                    </div>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3717.0470867829417!2d76.23038797503966!3d21.309155680411255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd833002ab79755%3A0x1e3db07edeb8391f!2sBharat%20plastics!5e0!3m2!1sen!2sin!4v1761224015073!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>GreenNets</h3>
+                    <p>Your trusted partner for high-quality shade nets and tarpaulins.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                     <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about-us.html">About Us</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="contact-us.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                     <ul class="footer-links">
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i><span>123 Green Street, Pune, Maharashtra 411001</span></li>
+                        <li><i class="fas fa-phone"></i><span>+91 98765 43210</span></li>
+                        <li><i class="fas fa-envelope"></i><span>info@greennets.com</span></li>
+                    </ul>
+                </div>
+            </div>
+             <div class="footer-bottom">
+                <p>&copy; 2023 GreenNets. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+        <!-- Cart Drawer -->
+    <div class="cart-drawer">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-price">₹0</span>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div class="wishlist-drawer">
+        <div class="cart-header"> <h3>Your Wishlist</h3>
+            <button class="close-wishlist"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="wishlist-items">
+            <p style="text-align: center; padding: 20px;">Your wishlist is empty</p>
+        </div>
+    </div>
+
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <button class="close-modal-btn"><i class="fas fa-times"></i></button>
+            
+            <form id="login-form">
+                <h2>Welcome Back!</h2>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <p class="form-switcher">
+                    Don't have an account? <a href="#" id="show-register">Register here</a>
+                </p>
+            </form>
+            
+            <form id="register-form" style="display: none;">
+                <h2>Create Account</h2>
+                <div class="form-group">
+                    <label for="register-name">Name</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+                <p class="form-switcher">
+                    Already have an account? <a href="#" id="show-login">Login here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Floating Cart Button -->
+    <div class="floating-cart">
+        <i class="fas fa-shopping-cart"></i>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        Product added to cart!
+    </div>
+    
+    <script src="script.js"></script>
+    
+    
+</body>
+</html>

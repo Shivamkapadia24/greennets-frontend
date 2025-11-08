@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Quality Tarpaulins | GreenNets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <div class="container header-container">
+        
+        <div class="logo">
+            <i class="fas fa-leaf"></i>
+            GreenNets
+        </div>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Search for products...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        
+        <div class="header-actions">
+
+            <div class="header-action-item" id="user-icon-container">
+                <i class="far fa-user" id="user-icon-itself"></i>
+                <span id="user-display-name" style="display: none; margin-left: 5px; font-weight: 500;"></span>
+            </div>
+
+            <div class="user-dropdown" id="user-dropdown-menu">
+                <div class="user-info">
+                    Signed in as <strong id="dropdown-user-name">User</strong>
+                </div>
+                <ul>
+                    <li><a href="#" id="logout-link">Logout</a></li>
+                </ul>
+            </div>
+
+            <div class="header-action-item" id="header-wishlist-icon">
+                <i class="far fa-heart"></i>
+                <span class="badge wishlist-count">0</span>
+            </div>
+
+            <div class="header-action-item cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge cart-count">0</span>
+            </div>
+
+        </div> </div> </header>
+
+    <nav>
+        <div class="container nav-container">
+            <ul class="main-nav">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="#">Green Nets <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="100-percent-shade-nets.html">100% Shade Nets</a></li>
+                        <li><a href="90-percent-shade-nets.html">90% Shade Nets</a></li>
+                        <li><a href="75-percent-shade-nets.html">75% Shade Nets</a></li>
+                        <li><a href="50-percent-shade-nets.html">50% Shade Nets</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Tarpaulins <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="premium-quality.html">Premium Quality</a></li>
+                        <li><a href="standard-quality.html">Standard Quality</a></li>
+                        <li><a href="economy-quality.html" class="active">Economy Quality</a></li>
+                    </ul>
+                </li>
+                <li>
+                <a href="#">Tirpal <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown">
+                    <li><a href="250gsm.html">250 GSM</a></li>
+                    <li><a href="200gsm.html">200 GSM</a></li>
+                    <li><a href="160gsm.html">160 GSM</a></li>
+                </ul>
+            </li>
+                <li><a href="accessories.html">Accessories</a></li>
+                <li><a href="about-us.html">About Us</a></li>
+                <li><a href="contact-us.html">Contact</a></li>
+            </ul>
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section class="category-hero" style="background: var(--white); color: var(--dark-gray);">
+        <div class="container">
+            <div class="category-hero-content">
+                <h1>Standard Quality Tarpaulins</h1>
+                <p>The perfect balance of durability and value. Our standard tarps are versatile, waterproof, and ideal for everyday use.</p>
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a> / 
+                    <a href="#">Tarpaulins</a> / 
+                    <span>Standard Quality</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<section class="section products">
+        <div class="container">
+            <div class="product-filters">
+            <div class="filter-group">
+                    <button class="filter-btn active" data-filter="all">All Sizes</button>
+                    <button class="filter-btn" data-filter="12ft">12ft</button>
+                    <button class="filter-btn" data-filter="18ft">18ft</button>
+                    <button class="filter-btn" data-filter="24ft">24ft</button>
+                    <button class="filter-btn" data-filter="30ft">30ft</button>
+                    <button class="filter-btn" data-filter="36ft">36ft</button>
+                </div>
+                <div class="filter-group">
+                    <select class="sort-select" id="sortProducts">
+                        <option value="popular">Sort by: Popularity</option>
+                        <option value="price-low">Sort by: Price: Low to High</option>
+                        <option value="price-high">Sort by: Price: High to Low</option>
+                        <option value="newest">Sort by: Newest</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                </div>
+        </div>
+    </section>
+
+    <section class="section specs">
+        <div class="container">
+            <div class="section-title">
+                <h2>Technical Specifications</h2>
+                <p>Details of our Standard Tarpaulins</p>
+            </div>
+            <div class="specs-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Specification</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Material</td>
+                            <td>Woven High-Density Polyethylene (HDPE)</td>
+                        </tr>
+                        <tr>
+                            <td>Weight (GSM)</td>
+                            <td>150 - 200 GSM</td>
+                        </tr>
+                        <tr>
+                            <td>Waterproofing</td>
+                            <td>100% Waterproof</td>
+                        </tr>
+                        <tr>
+                            <td>UV Protection</td>
+                            <td>Moderate UV resistance for sun protection</td>
+                        </tr>
+                        <tr>
+                            <td>Durability</td>
+                            <td>Good tear resistance, suitable for general use</td>
+                        </tr>
+                        <tr>
+                            <td>Reinforcement</td>
+                            <td>Rope-reinforced edges and aluminum eyelets every 3 ft</td>
+                        </tr>
+                         <tr>
+                            <td>Expected Lifespan</td>
+                            <td>2-3 years with proper use</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="section applications">
+        <div class="container">
+            <div class="section-title">
+                <h2>Common Applications</h2>
+                <p>Perfect uses for Standard Quality Tarpaulins</p>
+            </div>
+            <div class="applications-grid">
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>General Home Use</h3>
+                    <p>Covering furniture, vehicles, or firewood stacks.</p>
+                </div>
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Gardening & Landscaping</h3>
+                    <p>Protecting plants from frost or as a groundsheet.</p>
+                </div>
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-paint-roller"></i>
+                    </div>
+                    <h3>Temporary Covers</h3>
+                    <p>Ideal for covering leaky roofs or during minor repairs.</p>
+                </div>
+                <div class="application-card">
+                    <div class="application-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <h3>Monsoon Protection</h3>
+                    <p>Covering balconies and outdoor items during rainy season.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Looking for a Different Size?</h2>
+                <p>We offer a wide range of sizes and can provide bulk pricing for larger orders. Contact us for more details.</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" id="requestQuote">Request Quote</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+             <div class="footer-content">
+                 <div class="footer-column">
+                    <h3>GreenNets</h3>
+                    <p>Your trusted partner for high-quality shade nets and tarpaulins.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                     <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="products.html">Products</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                     <ul class="footer-links">
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i><span>123 Green Street, Pune, Maharashtra 411001</span></li>
+                        <li><i class="fas fa-phone"></i><span>+91 98765 43210</span></li>
+                        <li><i class="fas fa-envelope"></i><span>info@greennets.com</span></li>
+                    </ul>
+                </div>
+            </div>
+             <div class="footer-bottom">
+                <p>&copy; 2023 GreenNets. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+        <!-- Cart Drawer -->
+    <div class="cart-drawer">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-price">₹0</span>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div class="wishlist-drawer">
+        <div class="cart-header"> <h3>Your Wishlist</h3>
+            <button class="close-wishlist"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="wishlist-items">
+            <p style="text-align: center; padding: 20px;">Your wishlist is empty</p>
+        </div>
+    </div>
+
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <button class="close-modal-btn"><i class="fas fa-times"></i></button>
+            
+            <form id="login-form">
+                <h2>Welcome Back!</h2>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <p class="form-switcher">
+                    Don't have an account? <a href="#" id="show-register">Register here</a>
+                </p>
+            </form>
+            
+            <form id="register-form" style="display: none;">
+                <h2>Create Account</h2>
+                <div class="form-group">
+                    <label for="register-name">Name</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+                <p class="form-switcher">
+                    Already have an account? <a href="#" id="show-login">Login here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Floating Cart Button -->
+    <div class="floating-cart">
+        <i class="fas fa-shopping-cart"></i>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        Product added to cart!
+    </div>
+    
+    <script src="script.js"></script>
+
+            <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const productsGrid = document.getElementById('productsGrid');
+
+            // --- Function to Create a Product Card ---
+            function createProductCard(product) {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                // IMPORTANT: Add database ID for cart/wishlist
+                card.dataset.productId = product._id; 
+                card.dataset.price = product.price; // For sorting
+
+                if (product.category) card.dataset.category = product.category;
+                
+                // Add size data for filtering (if it exists)
+                if (product.size) card.dataset.size = product.size;
+
+                card.innerHTML = `
+                    <div class="product-img">
+                        <img src="${product.imageUrl || 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'}" alt="${product.name}">
+                        <div class="product-actions">
+                            <div class="product-action wishlist-btn"><i class="far fa-heart"></i></div>
+                            <div class="product-action quick-view-btn"><i class="fas fa-search"></i></div>
+                            <div class="product-action share-btn"><i class="fas fa-share-alt"></i></div>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">${product.category}</div>
+                        <h3 class="product-title">${product.name}</h3>
+                        ${product.size ? `<div class="product-specs"><span><i class="fas fa-ruler"></i> ${product.size}</span></div>` : ''}
+                        <div class="product-price">
+                            <span class="current-price">₹${product.price.toLocaleString()}</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                `;
+                return card;
+            }
+
+            // --- Function to Render Products to the Grid ---
+            function renderProducts(products) {
+                productsGrid.innerHTML = ''; // Clear
+                
+                if (products.length === 0) {
+                    productsGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No products found for this category.</p>';
+                    return;
+                }
+
+                products.forEach(product => {
+                    const card = createProductCard(product);
+                    productsGrid.appendChild(card);
+                });
+
+                if (typeof updateWishlistIconsOnCards === 'function') {
+                    updateWishlistIconsOnCards();
+                }
+            }
+
+            // --- Function to Fetch Products from API ---
+            async function fetchProducts() {
+                productsGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">Loading products...</p>';
+                
+                // --- THIS IS THE ONLY CHANGE ---
+                // We hardcode the filter for this specific page
+                let url = 'http://localhost:5001/api/products?category=Tarpaulins&quality=Standard';
+                // -----------------------------
+
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Failed to fetch products');
+                    
+                    const products = await response.json();
+                    renderProducts(products); // Render the fetched products
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                    productsGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: red;">Error loading products.</p>';
+                }
+            }
+
+            // --- Load products on page load ---
+            fetchProducts();
+        });
+    </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>250 GSM Tirpal | GreenNets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+                GreenNets
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for products...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <div class="header-actions">
+
+            <div class="header-action-item" id="user-icon-container">
+                <i class="far fa-user" id="user-icon-itself"></i>
+                <span id="user-display-name" style="display: none; margin-left: 5px; font-weight: 500;"></span>
+            </div>
+
+            <div class="user-dropdown" id="user-dropdown-menu">
+                <div class="user-info">
+                    Signed in as <strong id="dropdown-user-name">User</strong>
+                </div>
+                <ul>
+                    <li><a href="#" id="logout-link">Logout</a></li>
+                </ul>
+            </div>
+            <div class="header-action-item" id="header-wishlist-icon">
+                <i class="far fa-heart"></i>
+                <span class="badge wishlist-count">0</span>
+            </div>
+
+            <div class="header-action-item cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="badge cart-count">0</span>
+            </div>
+
+        </div>
+        </div>
+    </header>
+
+    <nav>
+        <div class="container nav-container">
+            <ul class="main-nav">
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="index.html">Green Nets <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="100-percent-shade-nets.html">100% Shade Nets</a></li>
+                        <li><a href="90-percent-shade-nets.html">90% Shade Nets</a></li>
+                        <li><a href="75-percent-shade-nets.html">75% Shade Nets</a></li>
+                        <li><a href="50-percent-shade-nets.html">50% Shade Nets</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Tarpaulins <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown">
+                        <li><a href="premium-quality.html">Premium Quality</a></li>
+                        <li><a href="standard-quality.html">Standard Quality</a></li>
+                        <li><a href="economy-quality.html" class="active">Economy Quality</a></li>
+                    </ul>
+                </li>
+                <li>
+                <a href="#">Tirpal <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown">
+                    <li><a href="250gsm.html">250 GSM</a></li>
+                    <li><a href="200gsm.html">200 GSM</a></li>
+                    <li><a href="160gsm.html">160 GSM</a></li>
+                </ul>
+            </li>
+                <li><a href="accessories.html">Accessories</a></li>
+                <li><a href="about-us.html">About Us</a></li>
+                <li><a href="contact-us.html">Contact</a></li>
+            </ul>
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section class="category-hero">
+        <div class="container">
+            <div class="category-hero-content">
+                <h1>250 GSM Tirpal </h1>
+                <p>Our highest quality, heavy-duty pre-cut tirpal sheets.</p>
+                <div class="breadcrumb">
+                    <a href="index.html">Home</a> / 
+                    <a href="#">Tirpal</a> / 
+                    <span>250 GSM</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section products">
+        <div class="container">
+            <div class="product-filters">
+<div class="filter-group">
+    <button class="filter-btn active" data-filter="all">All Sizes</button>
+    <button class="filter-btn" data-filter="9ft*12ft">9ft*12ft</button>
+    <button class="filter-btn" data-filter="15ft*12ft">15ft*12ft</button>
+    <button class="filter-btn" data-filter="18ft*12ft">18ft*12ft</button>
+    <button class="filter-btn" data-filter="24ft*18ft">24ft*18ft</button>
+    <button class="filter-btn" data-filter="30ft*30ft">30ft*30ft</button>
+    <button class="filter-btn" data-filter="30ft*36ft">30ft*36ft</button>
+    <button class="filter-btn" data-filter="36ft*36ft">36ft*36ft</button>
+    <button class="filter-btn" data-filter="40ft*24ft">40ft*24ft</button>
+    <button class="filter-btn" data-filter="50ft*51ft">50ft*51ft</button>
+</div>
+                <div class="filter-group">
+                    <select class="sort-select" id="sortProducts">
+                        <option value="popular">Sort by: Popularity</option>
+                        <option value="price-low">Sort by: Price: Low to High</option>
+                        <option value="price-high">Sort by: Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                </div>
+        </div>
+    </section>
+
+    <section class="section specs">
+    <div class="container">
+        <div class="section-title">
+            <h2>Technical Specifications (250 GSM)</h2>
+            <p>Detailed specifications for our heavy-duty 250 GSM Tirpal</p>
+        </div>
+        <div class="specs-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Specification</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GSM (Grams per Square Meter)</td>
+                        <td>250 GSM</td>
+                    </tr>
+                    <tr>
+                        <td>Material</td>
+                        <td>Multi-layered Cross-Laminated (MLCL) HDPE Fabric</td>
+                    </tr>
+                    <tr>
+                        <td>Waterproofing</td>
+                        <td>100% Waterproof and Weatherproof</td>
+                    </tr>
+                    <tr>
+                        <td>Durability</td>
+                        <td>Heavy-Duty: High tear and puncture resistance</td>
+                    </tr>
+                    <tr>
+                        <td>UV Protection</td>
+                        <td>Heavily UV stabilized for long life in direct sunlight</td>
+                    </tr>
+                    <tr>
+                        <td>Reinforcement</td>
+                        <td>Ultrasonic welded eyelets & rope-reinforced edges</td>
+                    </tr>
+                    <tr>
+                        <td>Expected Lifespan</td>
+                        <td>5-7 years (with proper use)</td>
+                    </tr>
+                    <tr>
+                        <td>Common Colors</td>
+                        <td>Blue, Black, Silver</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="section comparison" style="background-color: var(--light-gray);">
+    <div class="container">
+        <div class="section-title">
+            <h2>Tirpal Quality Comparison</h2>
+            <p>Find the right GSM for your needs</p>
+        </div>
+        <div class="comparison-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>250 GSM (Heavy Duty)</th>
+                        <th>200 GSM (Standard)</th>
+                        <th>160 GSM (Medium)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>GSM (Weight)</strong></td>
+                        <td>250</td>
+                        <td>200</td>
+                        <td>160</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Durability</strong></td>
+                        <td>Excellent (Industrial)</td>
+                        <td>Very Good (Multi-Purpose)</td>
+                        <td>Good (General Use)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>UV Resistance</strong></td>
+                        <td>Excellent</td>
+                        <td>Very Good</td>
+                        <td>Good</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best For</strong></td>
+                        <td>Truck covers, industrial sites, long-term agriculture</td>
+                        <td>General farming, roof covers, monsoon protection</td>
+                        <td>Temporary covers, ground sheets, personal use</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Expected Lifespan</strong></td>
+                        <td>5-7 Years</td>
+                        <td>3-5 Years</td>
+                        <td>2-3 Years</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="section applications">
+    <div class="container">
+        <div class="section-title">
+            <h2>Ideal Applications (250 GSM)</h2>
+            <p>Perfect uses for our heavy-duty Tirpal sheets</p>
+        </div>
+        <div class="applications-grid">
+            <div class="application-card">
+                <div class="application-icon">
+                    <i class="fas fa-truck-moving"></i>
+                </div>
+                <h3>Truck & Transport</h3>
+                <p>Protects goods from rain, dust, and sun during transport.</p>
+            </div>
+            <div class="application-card">
+                <div class="application-icon">
+                    <i class="fas fa-hard-hat"></i>
+                </div>
+                <h3>Construction Sites</h3>
+                <p>Covers machinery, building materials, and work areas.</p>
+            </div>
+            <div class="application-card">
+                <div class="application-icon">
+                    <i class="fas fa-tractor"></i>
+                </div>
+                <h3>Agriculture</h3>
+                <p>Ideal for covering crops, hay, and farming equipment.</p>
+            </div>
+            <div class="application-card">
+                <div class="application-icon">
+                    <i class="fas fa-warehouse"></i>
+                </div>
+                <h3>Industrial Shelters</h3>
+                <p>Use for temporary factory shades or warehouse partitions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section category-features">
+    <div class="container">
+        <h2 class="section-title">Why Choose 250 GSM?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-weight-hanging"></i>
+                </div>
+                <h3>250 GSM Heavy-Duty</h3>
+                <p>Our thickest and strongest material for maximum durability.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tint-slash"></i>
+                </div>
+                <h3>100% Waterproof</h3>
+                <p>Guaranteed to be 100% waterproof and weatherproof.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-sun"></i>
+                </div>
+                <h3>UV Stabilized</h3>
+                <p>Superior UV treatment protects against sun degradation.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>Reinforced Edges</h3>
+                <p>Comes with heavy-duty rope-reinforced edges and eyelets.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Need Custom Sizes or Bulk Orders?</h2>
+            <p>Contact us for a custom quote on 250 GSM Tirpal tailored to your specific requirements.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" id="requestQuote">Request Quote</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                 <div class="footer-column">
+                    <h3>GreenNets</h3>
+                    <p>Your trusted partner for high-quality shade nets and tarpaulins. Serving farmers and industries across India.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                     <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Products</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                     <ul class="footer-links">
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Return Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i><span>123 Green Street, Pune, Maharashtra 411001</span></li>
+                        <li><i class="fas fa-phone"></i><span>+91 98765 43210</span></li>
+                        <li><i class="fas fa-envelope"></i><span>info@greennets.com</span></li>
+                    </ul>
+                </div>
+            </div>
+             <div class="footer-bottom">
+                <p>&copy; 2023 GreenNets. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+            <!-- Cart Drawer -->
+    <div class="cart-drawer">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-price">₹0</span>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <div class="wishlist-drawer">
+        <div class="cart-header"> <h3>Your Wishlist</h3>
+            <button class="close-wishlist"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="wishlist-items">
+            <p style="text-align: center; padding: 20px;">Your wishlist is empty</p>
+        </div>
+    </div>
+
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <button class="close-modal-btn"><i class="fas fa-times"></i></button>
+            
+            <form id="login-form">
+                <h2>Welcome Back!</h2>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <p class="form-switcher">
+                    Don't have an account? <a href="#" id="show-register">Register here</a>
+                </p>
+            </form>
+            
+            <form id="register-form" style="display: none;">
+                <h2>Create Account</h2>
+                <div class="form-group">
+                    <label for="register-name">Name</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <button type="submit" class="btn">Register</button>
+                <p class="form-switcher">
+                    Already have an account? <a href="#" id="show-login">Login here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Floating Cart Button -->
+    <div class="floating-cart">
+        <i class="fas fa-shopping-cart"></i>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        Product added to cart!
+    </div>
+
+    <script src="script.js"></script>
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productsGrid = document.getElementById('productsGrid');
+
+            // Function to Create a Product Card
+            function createProductCard(product) {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.dataset.productId = product._id; 
+                card.dataset.price = product.price; 
+                if (product.category) card.dataset.category = product.category;
+                if (product.size) card.dataset.size = product.size; // Add size for filtering
+
+                card.innerHTML = `
+                    <div class="product-img">
+                        <img src="${product.imageUrl || 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'}" alt="${product.name}">
+                        <div class="product-actions">
+                            <div class="product-action wishlist-btn"><i class="far fa-heart"></i></div>
+                            <div class="product-action quick-view-btn"><i class="fas fa-search"></i></div>
+                            <div class="product-action share-btn"><i class="fas fa-share-alt"></i></div>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <div class="product-category">${product.quality} Tirpal</div>
+                        <h3 class="product-title">${product.name} - ${product.size}</h3>
+                        <div class="product-price">
+                            <span class="current-price">₹${product.price.toLocaleString()}</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</Hbutton>
+                    </div>
+                `;
+                return card;
+            }
+
+            // Function to Render Products
+            function renderProducts(products) {
+                productsGrid.innerHTML = ''; 
+                if (products.length === 0) {
+                    productsGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No products found for this category.</p>';
+                    return;
+                }
+                products.forEach(product => {
+                    productsGrid.appendChild(createProductCard(product));
+                });
+                if (typeof updateWishlistIconsOnCards === 'function') {
+                    updateWishlistIconsOnCards();
+                }
+            }
+
+            // Function to Fetch Products from API
+            async function fetchProducts() {
+                productsGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">Loading products...</p>';
+                
+                // Fetch all products in the 'Tirpal' category with '250gsm' quality
+                let url = 'http://localhost:5001/api/products?category=Tirpal&quality=250gsm';
+                
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error('Failed to fetch products');
+                    const products = await response.json();
+                    renderProducts(products);
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                    productsGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: red;">Error loading products.</p>';
+                }
+            }
+
+            // Load products on page load
+            fetchProducts();
+        });
+    </script> 
+</body>
+</html>

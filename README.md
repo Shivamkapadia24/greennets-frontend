@@ -6,10 +6,10 @@ Backend Repository: [https://github.com/Shivamkapadia24/greennets-backend]
 
 Features:
 
-  Fully dynamic product pages
+  1. Fully dynamic product pages
 
-  Secure login and registration
+  2. Secure login and registration
 
-  Persistent cart and wishlist
+  3. Persistent cart and wishlist
 
-  AI-powered customer service chatbot
+  4. AI-powered customer service chatbot

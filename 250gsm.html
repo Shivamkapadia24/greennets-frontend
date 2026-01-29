@@ -31,6 +31,8 @@
                     Signed in as <strong id="dropdown-user-name">User</strong>
                 </div>
                 <ul>
+                    <li><a href="#" id="my-orders-link">My Orders</a></li>
+                    <li class="divider"></li>
                     <li><a href="#" id="logout-link">Logout</a></li>
                 </ul>
             </div>
@@ -429,94 +431,286 @@
         </div>
     </div>
 
+        <!-- My Orders Modal -->
+<div class="modal" id="orders-modal">
+    <div class="modal-content orders-modal-content">
+        <button class="close-modal-btn orders-close-btn">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2>My Orders</h2>
+        <div id="orders-list" class="orders-list">
+            <p style="text-align: center; padding: 20px;">
+                Loading your orders...
+            </p>
+        </div>
+    </div>
+</div>
+
 
 
     <!-- Overlay -->
     <div class="overlay"></div>
 
-    <!-- Floating Cart Button -->
-    <div class="floating-cart">
-        <i class="fas fa-shopping-cart"></i>
-    </div>
+
 
     <!-- Notification -->
     <div class="notification" id="notification">
         Product added to cart!
     </div>
 
+        <div id="checkout-modal" class="checkout-modal">
+  <div class="checkout-content">
+    <button class="checkout-close" id="checkout-close-btn">&times;</button>
+    <h2>Checkout</h2>
+    <p>Enter your shipping details (Cash on Delivery)</p>
+
+    <form id="checkout-form" class="checkout-form">
+  <div class="checkout-fields">
+    <div class="form-row">
+      <label>Full Name*</label>
+      <input type="text" id="checkout-fullName" required />
+    </div>
+
+    <div class="form-row">
+      <label>Phone*</label>
+      <input type="tel" id="checkout-phone" required />
+    </div>
+
+    <div class="form-row">
+      <label>Address Line 1*</label>
+      <input type="text" id="checkout-address1" required />
+    </div>
+
+    <div class="form-row">
+      <label>Address Line 2</label>
+      <input type="text" id="checkout-address2" />
+    </div>
+
+    <div class="form-row">
+      <label>City*</label>
+      <input type="text" id="checkout-city" required />
+    </div>
+
+    <div class="form-row">
+      <label>State*</label>
+      <input type="text" id="checkout-state" required />
+    </div>
+
+    <div class="form-row">
+      <label>Pincode*</label>
+      <input type="text" id="checkout-pincode" required />
+    </div>
+
+    <!-- IMPORTANT: Notes row must also be inside checkout-fields -->
+    <div class="form-row">
+      <label>Notes (optional)</label>
+      <textarea id="checkout-notes" rows="3"></textarea>
+    </div>
+  </div>
+
+  <!-- Button is outside checkout-fields -->
+  <button type="submit" class="btn checkout-submit-btn">
+    Place Order (COD)
+  </button>
+</form>
+  </div>
+</div>
+
+    <!-- AI Chatbot -->
+<div class="chat-toggle" id="chat-toggle-button" aria-label="Open GreenNets AI assistant">
+    <i class="fas fa-robot"></i>
+    <span class="chat-toggle-label">Ask AI</span>
+</div>
+
+<div class="chat-widget" id="chat-widget" aria-hidden="true">
+    <div class="chat-header">
+        <div class="chat-header-info">
+            <div class="chat-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div>
+                <h3>GreenNets AI Assistant</h3>
+                <p class="chat-subtitle">Smart help for shade nets & tarpaulins</p>
+            </div>
+        </div>
+        <div class="chat-header-right">
+            <span class="chat-status">
+                <span class="status-dot"></span>
+                Online
+            </span>
+            <button class="chat-close-btn" id="chat-close-btn" aria-label="Close chat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="chat-welcome" id="chat-welcome">
+        <p>
+            Hi! I’m your <strong>GreenNets AI assistant</strong>. I can help you choose the right shade net,
+            compare products, or answer questions about our store.
+        </p>
+        <div class="chat-suggestions" id="chat-suggestions">
+            <!-- These are just example prompts, JS will attach listeners -->
+            <button type="button" class="chat-suggestion">
+                Which shade net is best for balcony use? 🏠
+            </button>
+            <button type="button" class="chat-suggestion">
+                Difference between 50%, 75% and 90% shade nets? 
+            </button>
+            <button class="chat-suggestion">Baarish se bachne ke liye kaun sa tarpaulin loon? 💧</button>
+  <button class="chat-suggestion">24ft x 50m ke area ke liye kitna net lagega? 📏</button>
+        </div>
+    </div>
+
+    <div class="chat-messages" id="chat-messages" aria-live="polite">
+        <!-- Messages will be injected here -->
+    </div>
+
+    <form class="chat-input-form" id="chat-input-form" autocomplete="off">
+        <input
+            type="text"
+            id="chat-input"
+            placeholder="Ask about shade nets, tarpaulins, sizes, pricing..."
+        />
+        <button type="submit" aria-label="Send message">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </form>
+
     <script src="script.js"></script>
     
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const productsGrid = document.getElementById('productsGrid');
+ <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // ⬅️ CHANGE THIS VALUE per page:
+    const QUALITY = '250gsm';   // for 200gsm.html use '200gsm', for 250gsm.html use '250gsm'
 
-            // Function to Create a Product Card
-            function createProductCard(product) {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.dataset.productId = product._id; 
-                card.dataset.price = product.price; 
-                if (product.category) card.dataset.category = product.category;
-                if (product.size) card.dataset.size = product.size; // Add size for filtering
+    const productsGrid   = document.getElementById('productsGrid');
+    const filterButtons  = document.querySelectorAll('.product-filters .filter-btn');
+    const sortSelect     = document.getElementById('sortProducts');
 
-                card.innerHTML = `
-                    <div class="product-img">
-                        <img src="${product.imageUrl || 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'}" alt="${product.name}">
-                        <div class="product-actions">
-                            <div class="product-action wishlist-btn"><i class="far fa-heart"></i></div>
-                            <div class="product-action quick-view-btn"><i class="fas fa-search"></i></div>
-                            <div class="product-action share-btn"><i class="fas fa-share-alt"></i></div>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-category">${product.quality} Tirpal</div>
-                        <h3 class="product-title">${product.name} - ${product.size}</h3>
-                        <div class="product-price">
-                            <span class="current-price">₹${product.price.toLocaleString()}</span>
-                        </div>
-                        <button class="add-to-cart">Add to Cart</Hbutton>
-                    </div>
-                `;
-                return card;
-            }
+    let allProducts  = [];
+    let currentFilter = 'all';      // size filter (button)
+    let currentSort   = 'popular';  // dropdown
 
-            // Function to Render Products
-            function renderProducts(products) {
-                productsGrid.innerHTML = ''; 
-                if (products.length === 0) {
-                    productsGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">No products found for this category.</p>';
-                    return;
-                }
-                products.forEach(product => {
-                    productsGrid.appendChild(createProductCard(product));
-                });
-                if (typeof updateWishlistIconsOnCards === 'function') {
-                    updateWishlistIconsOnCards();
-                }
-            }
+    // --- Create Product Card ---
+    function createProductCard(product) {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.dataset.productId = product._id;
+        card.dataset.price     = product.price;
+        if (product.category) card.dataset.category = product.category;
+        if (product.size)     card.dataset.size     = product.size;
 
-            // Function to Fetch Products from API
-            async function fetchProducts() {
-                productsGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">Loading products...</p>';
-                
-                // Fetch all products in the 'Tirpal' category with '250gsm' quality
-                let url = 'http://localhost:5001/api/products?category=Tirpal&quality=250gsm';
-                
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error('Failed to fetch products');
-                    const products = await response.json();
-                    renderProducts(products);
-                } catch (error) {
-                    console.error('Error fetching products:', error);
-                    productsGrid.innerHTML = '<p style="text-align: center; grid-column: 1 / -1; color: red;">Error loading products.</p>';
-                }
-            }
+        card.innerHTML = `
+            <div class="product-img">
+                <img src="${product.imageUrl || 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=500&q=80'}" alt="${product.name}">
+                <div class="product-actions">
+                    <div class="product-action wishlist-btn"><i class="far fa-heart"></i></div>
+                    <div class="product-action quick-view-btn"><i class="fas fa-search"></i></div>
+                    <div class="product-action share-btn"><i class="fas fa-share-alt"></i></div>
+                </div>
+            </div>
+            <div class="product-content">
+                <div class="product-category">${product.quality ? (product.quality.toUpperCase() + ' Tirpal') : 'Tirpal'}</div>
+                <h3 class="product-title">${product.name} - ${product.size || ''}</h3>
+                <div class="product-price">
+                    <span class="current-price">₹${product.price.toLocaleString()}</span>
+                </div>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        `;
+        return card;
+    }
 
-            // Load products on page load
-            fetchProducts();
+    // --- Render list to grid ---
+    function renderProducts(products) {
+        productsGrid.innerHTML = '';
+
+        if (!products || products.length === 0) {
+            productsGrid.innerHTML =
+                '<p style="text-align: center; grid-column: 1 / -1;">No products found for this selection.</p>';
+            return;
+        }
+
+        products.forEach(p => {
+            productsGrid.appendChild(createProductCard(p));
         });
-    </script> 
+
+        // keep wishlist hearts in sync
+        if (typeof updateWishlistIconsOnCards === 'function') {
+            updateWishlistIconsOnCards();
+        }
+    }
+
+    // --- Apply size filter + sort ---
+    function applyFiltersAndRender() {
+        let filtered = [...allProducts];
+
+        // size filter: data-filter values like "9ft*12ft", "24ft*18ft", etc.
+        if (currentFilter !== 'all') {
+            filtered = filtered.filter(p =>
+                p.size && p.size.toLowerCase().startsWith(currentFilter.toLowerCase())
+            );
+        }
+
+        // sort
+        if (currentSort === 'price-low') {
+            filtered.sort((a, b) => a.price - b.price);
+        } else if (currentSort === 'price-high') {
+            filtered.sort((a, b) => b.price - a.price);
+        }
+        // 'popular' => keep API order
+
+        renderProducts(filtered);
+    }
+
+    // --- Fetch products for this GSM ---
+    async function fetchProducts() {
+        productsGrid.innerHTML =
+            '<p style="text-align: center; grid-column: 1 / -1;">Loading products...</p>';
+
+        const baseUrl = (typeof API_BASE_URL !== 'undefined')
+            ? API_BASE_URL
+            : 'http://localhost:5001';
+
+        const url = `${baseUrl}/api/products?category=Tirpal&quality=${encodeURIComponent(QUALITY)}`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Failed to fetch products');
+            const products = await response.json();
+            allProducts = products;
+            applyFiltersAndRender();
+        } catch (err) {
+            console.error('Error fetching products:', err);
+            productsGrid.innerHTML =
+                '<p style="text-align: center; grid-column: 1 / -1; color: red;">Error loading products.</p>';
+        }
+    }
+
+    // --- Wire up size buttons ---
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            currentFilter = this.dataset.filter;  // "all", "9ft*12ft", ...
+            applyFiltersAndRender();
+        });
+    });
+
+    // --- Wire up sort dropdown ---
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function () {
+            currentSort = this.value;  // "popular", "price-low", "price-high"
+            applyFiltersAndRender();
+        });
+    }
+
+    // initial load
+    fetchProducts();
+});
+</script>
+ 
 </body>
 </html>

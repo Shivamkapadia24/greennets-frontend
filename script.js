@@ -1,10 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     
     // --- STATE INITIALIZATION ---
-    let cart = JSON.parse(localStorage.getItem('greenNetsCart')) || [];
+    let cart = []; 
+    let cartCount = 0; 
     let wishlist = JSON.parse(localStorage.getItem('greenNetsWishlist')) || [];
     let itemToAddAfterLogin = null; // Remembers the product ID
-    let cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+    
     let totalPrice = 0; // Initialize total price
 
     // --- DOM ELEMENTS (Declared ONCE) ---
@@ -47,17 +48,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.querySelector('.search-bar input');
     const newsletterForm = document.getElementById('newsletter-form');
 
+        // Checkout DOM Elements
+    const checkoutBtn = document.querySelector('.checkout-btn');
+    const checkoutModal = document.getElementById('checkout-modal');
+    const checkoutCloseBtn = document.getElementById('checkout-close-btn');
+    const checkoutForm = document.getElementById('checkout-form');
+
+        const myOrdersLink = document.getElementById('my-orders-link');
+    const ordersModal = document.getElementById('orders-modal');
+    const ordersListContainer = document.getElementById('orders-list');
+    const ordersCloseBtn = document.querySelector('.orders-close-btn');
+
+
+
     // --- UTILITY FUNCTIONS ---
 
     function getToken() {
         return localStorage.getItem('greenNetsToken');
     }
     
-    function saveCart() {
-        // This function is just for local-only changes (like quantity)
-        // The main cart state is now driven by API responses
-        localStorage.setItem('greenNetsCart', JSON.stringify(cart));
-    }
+
     
     function saveWishlist() {
         localStorage.setItem('greenNetsWishlist', JSON.stringify(wishlist));
@@ -114,6 +124,146 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = 'auto';
     }
 
+        // --- MY ORDERS ---
+
+    function openOrdersModal() {
+        const token = getToken();
+        if (!token) {
+            showNotification('Please log in to view your orders.');
+            openLoginModal();
+            return;
+        }
+        if (ordersModal) {
+            ordersModal.classList.add('active');
+        }
+    }
+
+    function closeOrdersModal() {
+        if (ordersModal) {
+            ordersModal.classList.remove('active');
+        }
+    }
+
+    function renderOrdersList(orders) {
+        if (!ordersListContainer) return;
+
+        if (!orders || orders.length === 0) {
+            ordersListContainer.innerHTML =
+                '<p style="text-align: center; padding: 20px;">You have not placed any orders yet.</p>';
+            return;
+        }
+
+        ordersListContainer.innerHTML = '';
+
+        orders.forEach(order => {
+            const card = document.createElement('div');
+            card.className = 'order-card';
+
+            const createdAt = order.createdAt
+                ? new Date(order.createdAt)
+                : null;
+
+            const dateText = createdAt
+                ? createdAt.toLocaleString()
+                : 'Unknown date';
+
+            const status = order.status || 'Pending';
+            const total = order.totalAmount || 0;
+
+            const header = document.createElement('div');
+            header.className = 'order-card-header';
+            header.innerHTML = `
+                <div class="order-id">Order ID: ${order._id}</div>
+                <span class="order-status">${status}</span>
+            `;
+
+            const meta = document.createElement('div');
+            meta.className = 'order-meta';
+            meta.textContent = `Placed on ${dateText} • Total: ₹${total.toLocaleString()}`;
+
+            const itemsList = document.createElement('ul');
+            itemsList.className = 'order-items';
+
+            (order.items || []).forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.name} × ${item.quantity} (₹${item.price})`;
+                itemsList.appendChild(li);
+            });
+
+            card.appendChild(header);
+            card.appendChild(meta);
+            card.appendChild(itemsList);
+
+            ordersListContainer.appendChild(card);
+        });
+    }
+
+    async function fetchAndShowOrders() {
+        const token = getToken();
+        if (!token) {
+            showNotification('Please log in to view your orders.');
+            openLoginModal();
+            return;
+        }
+
+        if (ordersListContainer) {
+            ordersListContainer.innerHTML =
+                '<p style="text-align: center; padding: 20px;">Loading your orders...</p>';
+        }
+
+        try {
+            const response = await fetch('http://localhost:5001/api/orders', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                const msg = errData.message || 'Failed to fetch your orders.';
+                showNotification(msg);
+                if (ordersListContainer) {
+                    ordersListContainer.innerHTML =
+                        '<p style="text-align: center; padding: 20px;">Could not load orders.</p>';
+                }
+                return;
+            }
+
+            const orders = await response.json();
+            renderOrdersList(orders);
+            openOrdersModal();
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+            showNotification('Something went wrong while loading your orders.');
+            if (ordersListContainer) {
+                ordersListContainer.innerHTML =
+                    '<p style="text-align: center; padding: 20px;">Could not load orders.</p>';
+            }
+        }
+    }
+
+
+        // Checkout Modal
+    function openCheckoutModal() {
+        const token = getToken();
+        if (!token) {
+            showNotification('Please log in to place an order.');
+            openLoginModal();
+            return;
+        }
+
+        if (checkoutModal) {
+            checkoutModal.classList.add('active'); // you'll style .checkout-modal.active in CSS
+        }
+    }
+
+    function closeCheckoutModal() {
+        if (checkoutModal) {
+            checkoutModal.classList.remove('active');
+        }
+    }
+
+
     function updateCartDisplay() {
         if (!cartItemsContainer || !totalPriceElement) return;
 
@@ -154,30 +304,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Local-only quantity update (fallback for +/- buttons)
-    function updateQuantity(productId, change) {
-        const item = cart.find(item => item.id === productId);
-        if (item) {
-            item.quantity += change;
-            cartCount += change;
-            
-            if (item.quantity <= 0) {
-                const itemIndex = cart.findIndex(item => item.id === productId);
-                if (itemIndex > -1) {
-                    //cartCount -= item.quantity; // This was a bug, should just be count--
-                    cart.splice(itemIndex, 1);
-                }
-            } else {
-                 // cartCount is already handled by change
-            }
-            
-            // Recalculate cart count from scratch to be safe
-            cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-            
-            if (cartCountElement) cartCountElement.textContent = cartCount;
-            updateCartDisplay();
-            saveCart(); // Save local changes
-        }
-    }
+
 
 
     // API function to add to cart
@@ -612,6 +739,113 @@ document.addEventListener('DOMContentLoaded', function() {
     if (wishlistIcon) wishlistIcon.addEventListener('click', openWishlist);
     if (closeWishlistBtn) closeWishlistBtn.addEventListener('click', closeWishlist);
     if (closeModalBtn) closeModalBtn.addEventListener('click', closeLoginModal);
+
+        // Checkout button in cart footer
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', function () {
+            openCheckoutModal();
+        });
+    }
+
+    // Close button in checkout modal
+    if (checkoutCloseBtn) {
+        checkoutCloseBtn.addEventListener('click', function () {
+            closeCheckoutModal();
+        });
+    }
+
+        // My Orders link
+    if (myOrdersLink) {
+        myOrdersLink.addEventListener('click', function (e) {
+            e.preventDefault();
+            fetchAndShowOrders();
+            if (userDropdownMenu) userDropdownMenu.classList.remove('active');
+        });
+    }
+
+    // Close My Orders modal
+    if (ordersCloseBtn) {
+        ordersCloseBtn.addEventListener('click', function () {
+            closeOrdersModal();
+        });
+    }
+
+
+        if (checkoutForm) {
+        checkoutForm.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const token = getToken();
+            if (!token) {
+                showNotification('Please log in to place an order.');
+                openLoginModal();
+                return;
+            }
+
+            const fullName = document.getElementById('checkout-fullName').value.trim();
+            const phone = document.getElementById('checkout-phone').value.trim();
+            const addressLine1 = document.getElementById('checkout-address1').value.trim();
+            const addressLine2 = document.getElementById('checkout-address2').value.trim();
+            const city = document.getElementById('checkout-city').value.trim();
+            const state = document.getElementById('checkout-state').value.trim();
+            const pincode = document.getElementById('checkout-pincode').value.trim();
+            const notes = document.getElementById('checkout-notes').value.trim();
+
+            if (!fullName || !phone || !addressLine1 || !city || !state || !pincode) {
+                showNotification('Please fill all required fields.');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5001/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        fullName,
+                        phone,
+                        addressLine1,
+                        addressLine2,
+                        city,
+                        state,
+                        pincode,
+                        notes
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    showNotification(data.message || 'Failed to place order.');
+                    return;
+                }
+
+                showNotification('Order placed successfully! ✅');
+
+                // Close modal and clear form
+                closeCheckoutModal();
+                checkoutForm.reset();
+
+                // Refresh cart from server so it becomes empty
+                if (typeof initializeUserState === 'function') {
+                    await initializeUserState();
+                } else {
+                    // fallback if something goes wrong
+                    cart = [];
+                    cartCount = 0;
+                
+                    updateCartDisplay();
+                    if (cartCountElement) cartCountElement.textContent = '0';
+                }
+            } catch (error) {
+                console.error('Checkout error:', error);
+                showNotification('Something went wrong while placing your order.');
+            }
+        });
+    }
+
     
     if (overlay) {
         overlay.addEventListener('click', closeCart);
@@ -682,9 +916,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json(); 
                 if (!response.ok) throw new Error(data.message || `HTTP error! status: ${response.status}`);
 
-                showNotification(`Welcome back, ${data.name}!`);
+                showNotification(`Welcome back, ${data.user.name}!`);
                 localStorage.setItem('greenNetsToken', data.token);
-                localStorage.setItem('greenNetsUserName', data.name);
+                localStorage.setItem('greenNetsUserName', data.user.name);
                 
                 closeLoginModal(); 
                 loginForm.reset(); 
@@ -825,65 +1059,330 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // AI Chatbot Logic
-    const chatToggleButton = document.getElementById('chat-toggle-button');
-    const chatWidget = document.getElementById('chat-widget');
-    const chatCloseButton = document.getElementById('chat-close-btn');
-    const chatForm = document.getElementById('chat-input-form');
-    const chatInput = document.getElementById('chat-input');
-    const chatMessages = document.getElementById('chat-messages');
+// ===============================
+// AI Chatbot
+// ===============================
+const API_BASE_URL = 'http://localhost:5001'; // adjust for production
 
-    if (chatToggleButton) {
-        chatToggleButton.addEventListener('click', () => {
-            if(chatWidget) chatWidget.classList.toggle('active');
-        });
+const chatToggleButton = document.getElementById('chat-toggle-button');
+const chatWidget = document.getElementById('chat-widget');
+const chatCloseButton = document.getElementById('chat-close-btn');
+const chatMessages = document.getElementById('chat-messages');
+const chatForm = document.getElementById('chat-input-form');
+const chatInput = document.getElementById('chat-input');
+const chatWelcome = document.getElementById('chat-welcome');
+const chatSuggestionsContainer = document.getElementById('chat-suggestions');
+
+let hasGreeted = false;
+let isRequestInFlight = false;
+
+function openChat() {
+  if (!chatWidget) return;
+  chatWidget.classList.add('active');
+  chatWidget.setAttribute('aria-hidden', 'false');
+
+  if (!hasGreeted) {
+    displayMessage('👋 Hi! I’m GreenNets AI. How can I help you today?', 'bot');
+    hasGreeted = true;
+  }
+
+  if (chatInput) {
+    setTimeout(() => chatInput.focus(), 150);
+  }
+}
+
+function closeChat() {
+  if (!chatWidget) return;
+  chatWidget.classList.remove('active');
+  chatWidget.setAttribute('aria-hidden', 'true');
+}
+
+function displayMessage(message, sender) {
+  if (!chatMessages) return;
+
+  const wrapper = document.createElement('div');
+  wrapper.className = `chat-message ${sender}`;
+
+  // USER messages stay simple
+  if (sender === 'user') {
+    const textDiv = document.createElement('div');
+    textDiv.className = 'chat-text';
+    textDiv.innerText = message;
+    wrapper.appendChild(textDiv);
+    chatMessages.appendChild(wrapper);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return;
+  }
+
+  // BOT messages: detect [Tag] [Tag] line at the top
+  const lines = message.split('\n');
+  const nonEmptyLines = lines.filter((l) => l.trim().length > 0);
+
+  let tags = [];
+  let remainingText = message;
+
+  if (nonEmptyLines.length > 0) {
+    const firstLine = nonEmptyLines[0];
+    const tagRegex = /\[([^\]]+)\]/g;
+    let match;
+    const foundTags = [];
+
+    while ((match = tagRegex.exec(firstLine)) !== null) {
+      foundTags.push(match[1].trim());
     }
-    if (chatCloseButton) {
-        chatCloseButton.addEventListener('click', () => {
-            if(chatWidget) chatWidget.classList.remove('active');
-        });
+
+    if (foundTags.length > 0) {
+      tags = foundTags;
+
+      // Remove that first line from the message for main text
+      const firstLineIndex = lines.indexOf(firstLine);
+      const linesWithoutFirst =
+        firstLineIndex >= 0
+          ? lines.slice(0, firstLineIndex).concat(lines.slice(firstLineIndex + 1))
+          : lines;
+      remainingText = linesWithoutFirst.join('\n').trim();
     }
-    if (chatForm) {
-        chatForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const userMessage = chatInput.value.trim();
-            if (!userMessage) return;
-            displayMessage(userMessage, 'user');
-            chatInput.value = '';
-            handleChatbotRequest(userMessage);
-        });
-    }
-    function displayMessage(message, sender, id = null) {
-        if (!chatMessages) return;
-        const messageElement = document.createElement('div');
-        messageElement.className = `chat-message ${sender}`;
-        if (id) {
-            messageElement.id = id;
-        }
-        messageElement.innerText = message;
-        chatMessages.appendChild(messageElement);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-    async function handleChatbotRequest(prompt) {
-        displayMessage('...', 'bot', 'loading-indicator');
-        try {
-            const response = await fetch('http://localhost:5001/api/ai/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt: prompt }),
+  }
+
+  // If we have tags, render them as chips
+  if (tags.length > 0) {
+    const tagsContainer = document.createElement('div');
+    tagsContainer.className = 'chat-tags';
+
+    tags.forEach((tagText) => {
+      const tagEl = document.createElement('span');
+      tagEl.className = 'chat-tag';
+      tagEl.innerText = tagText; // safe, we control the format
+      tagsContainer.appendChild(tagEl);
+    });
+
+    wrapper.appendChild(tagsContainer);
+  }
+
+  // Main bot text
+  if (remainingText) {
+    const textDiv = document.createElement('div');
+    textDiv.className = 'chat-text';
+    textDiv.innerText = remainingText; // still using innerText -> safe
+    wrapper.appendChild(textDiv);
+  }
+
+  chatMessages.appendChild(wrapper);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function displayBotMessage(message, recommendedProducts) {
+    if (!chatMessages) return;
+
+    const messageElement = document.createElement('div');
+    messageElement.className = 'chat-message bot';
+
+    const textElement = document.createElement('div');
+    textElement.className = 'chat-message-text';
+    textElement.innerText = message;
+    messageElement.appendChild(textElement);
+
+    // If we have recommendations, render them as buttons
+    if (Array.isArray(recommendedProducts) && recommendedProducts.length > 0) {
+        const recContainer = document.createElement('div');
+        recContainer.className = 'chat-recommendations';
+
+        const title = document.createElement('div');
+        title.className = 'chat-rec-title';
+        title.innerText = 'Recommended products:';
+        recContainer.appendChild(title);
+
+        recommendedProducts.forEach((name) => {
+            const item = document.createElement('div');
+            item.className = 'chat-rec-item';
+
+            const nameSpan = document.createElement('span');
+            nameSpan.className = 'chat-rec-name';
+            nameSpan.innerText = name;
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'chat-rec-btn';
+            btn.innerText = 'Add to cart';
+
+            btn.addEventListener('click', () => {
+                handleRecommendationAddToCart(name);
             });
-            const loadingIndicator = document.getElementById('loading-indicator');
-            if (loadingIndicator) loadingIndicator.remove();
-            if (!response.ok) throw new Error('AI response was not ok.');
-            const data = await response.json();
-            displayMessage(data.message, 'bot');
-        } catch (error) {
-            console.error('Error with chatbot:', error);
-            const loadingIndicator = document.getElementById('loading-indicator');
-            if (loadingIndicator) loadingIndicator.remove();
-            displayMessage('Sorry, I had trouble connecting to my brain. Please try again.', 'bot');
-        }
+
+            item.appendChild(nameSpan);
+            item.appendChild(btn);
+            recContainer.appendChild(item);
+        });
+
+        messageElement.appendChild(recContainer);
     }
+
+    chatMessages.appendChild(messageElement);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+
+
+function addTypingIndicator() {
+  if (!chatMessages) return;
+  removeTypingIndicator();
+
+  const typingEl = document.createElement('div');
+  typingEl.className = 'chat-message bot typing-indicator';
+  typingEl.innerHTML = '<span></span><span></span><span></span>';
+
+  chatMessages.appendChild(typingEl);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  if (!chatMessages) return;
+  const existing = chatMessages.querySelector('.typing-indicator');
+  if (existing) existing.remove();
+}
+
+async function handleChatbotRequest(prompt) {
+    if (!prompt) return;
+
+    // Hide welcome block after first real question
+    if (chatWelcome) {
+        chatWelcome.style.display = 'none';
+    }
+
+    addTypingIndicator();
+
+    try {
+        const response = await fetch('http://localhost:5001/api/ai/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: prompt }),
+        });
+
+        removeTypingIndicator();
+
+        if (!response.ok) {
+            throw new Error('AI response was not ok.');
+        }
+
+        const data = await response.json();
+
+        // New: if backend sends structured data, use it
+        if (data && typeof data === 'object' && 'message' in data) {
+            displayBotMessage(data.message, data.recommendedProducts || []);
+        } else {
+            // Fallback (just in case)
+            displayMessage(String(data), 'bot');
+        }
+    } catch (error) {
+        console.error('Error with chatbot:', error);
+        removeTypingIndicator();
+        displayMessage(
+            'Sorry, I had trouble connecting to my brain. Please try again in a moment.',
+            'bot'
+        );
+    }
+}
+async function handleRecommendationAddToCart(productName) {
+    if (!productName) return;
+
+    const token = getToken();
+    if (!token) {
+        showNotification('Please log in to add items to your cart.');
+        openLoginModal();
+        return;
+    }
+
+    try {
+        // Find product by name using your /api/products search route
+        const response = await fetch(
+            `http://localhost:5001/api/products?search=${encodeURIComponent(productName)}`
+        );
+
+        if (!response.ok) {
+            throw new Error(`Unable to search product for "${productName}"`);
+        }
+
+        const products = await response.json();
+
+        if (!Array.isArray(products) || products.length === 0) {
+            showNotification(`Sorry, I couldn't find "${productName}" in the store.`);
+            return;
+        }
+
+        // Prefer exact name match; else fallback to first result
+        let product = products.find((p) => p.name === productName) || products[0];
+
+        if (!product || !product._id) {
+            showNotification(`Sorry, I couldn't identify the product "${productName}".`);
+            return;
+        }
+
+        const productId = product._id;
+
+        // Reuse your existing cart API helper
+        await addItemToCartAPI(productId, 1);
+    } catch (error) {
+        console.error('Failed to add recommended product:', error);
+        showNotification(`Error adding "${productName}" to cart: ${error.message}`);
+    }
+}
+
+
+function sendUserMessage(text) {
+  const trimmed = text.trim();
+  if (!trimmed) return;
+  displayMessage(trimmed, 'user');
+  handleChatbotRequest(trimmed);
+}
+
+if (chatForm) {
+  chatForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!chatInput) return;
+    const userMessage = chatInput.value;
+    chatInput.value = '';
+    sendUserMessage(userMessage);
+  });
+}
+
+// Enter to send, Shift+Enter for newline
+if (chatInput && chatForm) {
+  chatInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      chatForm.dispatchEvent(new Event('submit'));
+    }
+  });
+}
+
+// Attach click handlers to example suggestion chips
+if (chatSuggestionsContainer) {
+  chatSuggestionsContainer.addEventListener('click', (e) => {
+    const btn = e.target.closest('.chat-suggestion');
+    if (!btn) return;
+    const text = btn.textContent || btn.innerText;
+    openChat();
+    sendUserMessage(text);
+  });
+}
+
+if (chatToggleButton) {
+  chatToggleButton.addEventListener('click', () => {
+    if (!chatWidget) return;
+    if (chatWidget.classList.contains('active')) {
+      closeChat();
+    } else {
+      openChat();
+    }
+  });
+}
+
+if (chatCloseButton) {
+  chatCloseButton.addEventListener('click', () => closeChat());
+}
+
+
+
     
     // --- INITIALIZE PAGE STATE ---
     async function initializeUserState() {
